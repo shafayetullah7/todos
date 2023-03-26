@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
+
 const NewTodo = () => {
 
     const [textLength] = useState(50);
     const [remainingLength,setRemainingLength] = useState(textLength);
-    const [newtodo,setNewtodo] = useState({todo:'',start:'',end:''});
+    const [newtodo,setNewtodo] = useState({todo:'',start:'',end:'',key:''});
 
     const handleChange = e => {
         const {name,value} = e.target;
@@ -12,7 +14,6 @@ const NewTodo = () => {
     }
 
     useEffect(()=>{
-        console.log(newtodo.todo);
         setRemainingLength(textLength-newtodo.todo.length);
     },[newtodo.todo,textLength]);
 
@@ -35,8 +36,8 @@ const NewTodo = () => {
             alert('Start date must be earlier than End date.');
             return;
         }
-
-        console.log(newtodo);
+        newtodo.key = uuidv4();
+        console.log(newtodo)
     }
 
     return (
