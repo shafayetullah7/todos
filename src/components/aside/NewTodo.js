@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const NewTodo = () => {
+const NewTodo = ({addTodo}) => {
 
     const [textLength] = useState(50);
     const [remainingLength,setRemainingLength] = useState(textLength);
@@ -36,8 +36,11 @@ const NewTodo = () => {
             alert('Start date must be earlier than End date.');
             return;
         }
+        
         newtodo.key = uuidv4();
-        console.log(newtodo)
+        addTodo(newtodo);
+        setNewtodo({todo:'',start:'',end:'',key:''});
+        // console.log(newtodo);
     }
 
     return (
@@ -49,6 +52,7 @@ const NewTodo = () => {
                     className='border-2 border-green-200 pl-3 pr-7 py-1 rounded-md w-[20rem] h-16 outline-none focus:border-green-400' 
                     maxLength={textLength} 
                     onChange={handleChange} 
+                    value={newtodo.todo}
                     placeholder="WHAT TO DO?">
 
                 </textarea>
@@ -57,10 +61,10 @@ const NewTodo = () => {
 
             <div className='p-5 my-2 rounded-xl flex gap-1 justify-around items-center bg-green-200'>
                 <div className='text-sm'>
-                    <label className='font-bold' htmlFor="start">Start: </label><input className='border-2 border-green-400 outline-none p-1 rounded-md' name='start' onChange={handleChange} type="date" />
+                    <label className='font-bold' htmlFor="start">Start: </label><input className='border-2 border-green-400 outline-none p-1 rounded-md' name='start' value={newtodo.start} onChange={handleChange} type="date" />
                 </div>
                 <div className='text-sm'>
-                    <label className='font-bold' htmlFor="end">End: </label><input className='border-2 border-green-400 outline-none p-1 rounded-md' name='end' onChange={handleChange} type="date" />
+                    <label className='font-bold' htmlFor="end">End: </label><input className='border-2 border-green-400 outline-none p-1 rounded-md' name='end' value={newtodo.end} onChange={handleChange} type="date" />
                 </div>
             </div>
 
