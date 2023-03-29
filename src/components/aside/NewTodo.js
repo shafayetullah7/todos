@@ -44,7 +44,7 @@ const NewTodo = ({addTodo}) => {
     }
 
     return (
-        <div className='h-full p-5 border-4 border-green-500 rounded-2xl overflow-auto'>
+        <div className='h-fit p-5 border-4 border-green-500 rounded-2xl overflow-auto'>
             <h2 className='text-2xl font-bold mb-5'>Add new todo</h2>
 
             <div className='flex items-start'>
