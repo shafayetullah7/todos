@@ -9,7 +9,24 @@ function App() {
   const [deleted,setDeleted] = useState([]);
   // const [completed,setCompleted] = useState([]);
 
+  const addToLocalTodos = todo =>{
+    const id = todo.id;
+    console.log(todo);
+    let todos = localStorage.getItem('todos');
+    if(todos){
+      console.log('present')
+      todos = JSON.parse(todos);
+      todos = {...todos,[id]:todo};
+      // localStorage.setItem('todos',todos);
+    }
+    else{
+      console.log('not present');
+      // localStorage.setItem('todos',{[id]:todo});
+    }
+  }
+
   const addTodo = todo =>{
+    addToLocalTodos(todo);
     setTodos(todos => [...todos,todo]);
   };
   useEffect(()=>{
