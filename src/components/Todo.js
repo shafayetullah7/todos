@@ -4,7 +4,6 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdOutlineDownloadDone } from "react-icons/md";
 
 const Todo = ({todo,deleteTodo}) => {
-    console.log(todo.key);
     return (
         <div className='border-b border-orange-500 grid grid-cols-6 py-2'>
             <div className='pr-10 col-span-2'><p className='truncate'>{todo.todo}</p></div>

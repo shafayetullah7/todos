@@ -9,32 +9,45 @@ function App() {
   const [deleted,setDeleted] = useState([]);
   // const [completed,setCompleted] = useState([]);
 
-  const addToLocalTodos = todo =>{
-    const id = todo.id;
-    console.log(todo);
-    let todos = localStorage.getItem('todos');
-    if(todos){
-      console.log('present')
-      todos = JSON.parse(todos);
-      todos = {...todos,[id]:todo};
-      // localStorage.setItem('todos',todos);
+  const addToLocal = (storageName,todo) =>{
+    let localTodos = localStorage.getItem(storageName);
+    if(localTodos){
+      localTodos = JSON.parse(localTodos);
+      localTodos = [...localTodos,todo];
+      localStorage.setItem(storageName,JSON.stringify(localTodos));
     }
     else{
-      console.log('not present');
-      // localStorage.setItem('todos',{[id]:todo});
+      localStorage.setItem(storageName,JSON.stringify([todo]));
     }
   }
 
+  const deleteFromLocal = (storageName,todo) =>{
+    let storage = localStorage.getItem(storageName);
+    if(storage){
+      storage = JSON.parse(storage);
+      storage = storage.filter(item => item.key!==todo.key);
+      localStorage.setItem(storageName,JSON.stringify(storage));
+    }
+  }
+
+  useEffect(()=>{
+    let localTodos = localStorage.getItem('todos');
+    if(localTodos){
+      localTodos = JSON.parse(localTodos);
+      setTodos(localTodos);
+    }
+  },[]);
+
   const addTodo = todo =>{
-    addToLocalTodos(todo);
+    addToLocal('todos',todo);
     setTodos(todos => [...todos,todo]);
   };
-  useEffect(()=>{
-    console.log(todos);
-  },[todos])
 
   const deleteTodo = todo => {
+    addToLocal('deletes',todo);
+    deleteFromLocal('todos',todo);
     setDeleted(deleted => [...deleted,todos.find(t=>t.key===todo.key)]);
+    
   };
 
   // const markCompleted = todo =>{

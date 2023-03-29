@@ -7,9 +7,9 @@ const History = () => {
 
 
     const handleScreenChange = e => {
-        console.log(e.target.classList);
+        // console.log(e.target.classList);
         // e.target.classList.remove('active:scale-90','duration-150');
-        console.log(e.target.classList);
+        // console.log(e.target.classList);
         setCurrent(e.target.innerText);
     }
 
