@@ -13,25 +13,12 @@ function App() {
   useEffect(()=>{
     setTodos(todos => todos.filter(todo => !deleted.includes(todo)));
   },[deleted,setTodos,completed]);
-  
+
   useEffect(()=>{
     setTodos(todos => todos.filter(todo => !completed.includes(todo)));
   },[setTodos,completed]);
 
   useEffect(()=>{
-    // let localTodos = localStorage.getItem('todos');
-    // if(localTodos){
-    //   localTodos = JSON.parse(localTodos);
-    //   setTodos(localTodos);
-    // }
-
-    // let localDelets = localStorage.getItem('deletes');
-    // if(localDelets){
-    //   localDelets = JSON.parse(localDelets);
-    //   setDeleted(localDelets);
-    // }
-
-    // let localCompleted = localStorage.getItem('completes');
     renderLocal('todos',setTodos);
     renderLocal('deletes',setDeleted);
     renderLocal('completes',setCompleted);
