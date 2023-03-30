@@ -1,6 +1,6 @@
 import Todo from './Todo';
 
-const Todos = ({todos,deleteTodo}) => {
+const Todos = ({todos,completeTodo,deleteTodo}) => {
 
     return (
         <div className='h-full bg-orange-50 overflow-auto'>
@@ -13,7 +13,7 @@ const Todos = ({todos,deleteTodo}) => {
                     <p className='text-lg font-bold text-center'>Done</p>
                 </div>
                 <div className='mt-2'>
-                    {todos.map(todo => <Todo key={todo.key} todo={todo} deleteTodo={deleteTodo}></Todo>)}
+                    {todos.map(todo => <Todo key={todo.key} todo={todo} completeTodo={completeTodo} deleteTodo={deleteTodo}></Todo>)}
                 </div>
                 
             </div>

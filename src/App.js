@@ -9,6 +9,42 @@ function App() {
   const [deleted,setDeleted] = useState([]);
   const [completed,setCompleted] = useState([]);
 
+
+  useEffect(()=>{
+    setTodos(todos => todos.filter(todo => !deleted.includes(todo)));
+  },[deleted,setTodos,completed]);
+  
+  useEffect(()=>{
+    setTodos(todos => todos.filter(todo => !completed.includes(todo)));
+  },[setTodos,completed]);
+
+  useEffect(()=>{
+    // let localTodos = localStorage.getItem('todos');
+    // if(localTodos){
+    //   localTodos = JSON.parse(localTodos);
+    //   setTodos(localTodos);
+    // }
+
+    // let localDelets = localStorage.getItem('deletes');
+    // if(localDelets){
+    //   localDelets = JSON.parse(localDelets);
+    //   setDeleted(localDelets);
+    // }
+
+    // let localCompleted = localStorage.getItem('completes');
+    renderLocal('todos',setTodos);
+    renderLocal('deletes',setDeleted);
+    renderLocal('completes',setCompleted);
+  },[]);
+
+  const renderLocal = (storageName,setter) =>{
+    let localTodos = localStorage.getItem(storageName);
+    if(localTodos){
+      localTodos = JSON.parse(localTodos);
+      setter(localTodos);
+    }
+  }
+
   const addToLocal = (storageName,todo) =>{
     let localTodos = localStorage.getItem(storageName);
     if(localTodos){
@@ -22,7 +58,6 @@ function App() {
   }
 
   const deleteFromLocal = (storageName,todo) =>{
-    console.log(storageName,todo);
     let storage = localStorage.getItem(storageName);
     if(storage){
       storage = JSON.parse(storage);
@@ -31,19 +66,6 @@ function App() {
     }
   }
 
-  useEffect(()=>{
-    let localTodos = localStorage.getItem('todos');
-    if(localTodos){
-      localTodos = JSON.parse(localTodos);
-      setTodos(localTodos);
-    }
-
-    let localDelets = localStorage.getItem('deletes');
-    if(localDelets){
-      localDelets = JSON.parse(localDelets);
-      setDeleted(localDelets);
-    }
-  },[]);
 
   const addTodo = todo =>{
     addToLocal('todos',todo);
@@ -60,23 +82,14 @@ function App() {
     todo.delete = new Date().toDateString();
     addToLocal('completes',todo);
     deleteFromLocal('todos',todo);
-    setDeleted(completed => [...completed,todo]);
+    setCompleted(completed => [...completed,todo]);
   }
 
   const deleteRecord = (storageName,todo) =>{
-    console.log(todo);
     deleteFromLocal(storageName,todo);
-    setDeleted(deleted.filter(t=>t.key!==todo.key));
+    if(storageName==='deletes')setDeleted(deleted.filter(t=>t.key!==todo.key));
+    else if(storageName==='completes')setCompleted(completed.filter(t=>t.key!==todo.key));
   }
-
-  // const markCompleted = todo =>{
-  //   setCompleted(completed => [...completed,todos.find(t => t.key===todo.key)]);
-  // }
-
-  useEffect(()=>{
-    setTodos(todos => todos.filter(todo => !deleted.includes(todo)));
-    // console.log('deleted',deleted);
-  },[deleted,setTodos])
 
   return (
     <div className='flex justify-center items-center'>
@@ -85,7 +98,7 @@ function App() {
 
         <div className='h-full mt-5 flex flex-col sm:flex-row sm:gap-5 overflow-hidden'>
           <div className='w-full h-full'>
-            <Todos todos={todos} deleteTodo={deleteTodo}></Todos>
+            <Todos todos={todos} completeTodo={completeTodo} deleteTodo={deleteTodo}></Todos>
           </div>
           <div className='w-1/2 overflow-hidden'>
             <Aside addTodo={addTodo} completed={completed} deleted={deleted} deleteRecord={deleteRecord}></Aside>
